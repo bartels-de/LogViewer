@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,14 +17,14 @@ namespace LogViewer.Services
         /// <param name="configuration"><see cref="LogDirectoryConfiguration"/></param>
         /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
         /// <returns></returns>
-        internal async Task<List<LogFile>> GetLogsAsync(LogDirectoryConfiguration configuration, CancellationToken cancellationToken)
+        internal async IAsyncEnumerable<LogFile> GetLogsAsync(
+            LogDirectoryConfiguration configuration, 
+            [EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            var listOfFiles = new List<LogFile>();
-
             if (ConfigurationIsNotValid(configuration) || DirectoryDoesNotExists(configuration))
             {
                 //TODO: Add logging or throw an exception
-                return listOfFiles;
+                yield break;
             }
 
             //We only want to aim for .log files
@@ -32,21 +33,19 @@ namespace LogViewer.Services
 
             if (FilePathIsGiven(configuration))
             {
-                files = files.Where(file => FileExistsInGivenFilePaths(configuration, file)).ToArray();
+                files = files.Where(file => FileExistsInGivenFilePaths(configuration, file));
             }
 
             foreach (var file in files)
             {
                 var contentOfTheFile = await File.ReadAllTextAsync(file, cancellationToken);
 
-                listOfFiles.Add(new LogFile
+                yield return new LogFile
                 {
                     FullFileName = file,
                     Content = contentOfTheFile
-                });
+                };
             }
-
-            return listOfFiles;
         }
 
         private static bool HasValidEnding(string file)
