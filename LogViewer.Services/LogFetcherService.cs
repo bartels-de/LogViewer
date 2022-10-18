@@ -1,10 +1,53 @@
-﻿using LogViewer.Models;
+﻿using LogViewer.Constants;
+using LogViewer.Models;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace LogViewer.Services
 {
     internal class LogFetcherService
     {
+        internal async Task GetContentWithFormat(
+            LogDirectoryConfiguration configuration, 
+            IAsyncEnumerator<LogFile> filesEnumerator)
+        {
+            if(configuration.RegexFormats.Count != 4)
+            {
+                //something went wrong, the count must be four
+                return;
+            }
+
+            var frontendContent = new List<FrontendContent>();
+
+            while (await filesEnumerator.MoveNextAsync())
+            {
+                var currentFile = filesEnumerator.Current;
+
+                foreach (var regexFormat in configuration.RegexFormats)
+                {
+                    var regexString = regexFormat switch
+                    {
+                        RegexFormat.Date => RegexConstants.Date,
+                        RegexFormat.LogLevel => RegexConstants.LogLevel,
+                        RegexFormat.ClassName => RegexConstants.ClassName,
+                        RegexFormat.ThreadId => RegexConstants.ThreadId,
+                        _ => throw new NotImplementedException(),
+                    };
+
+                    var regex = new Regex(regexString);
+                    var firstSplitArray = regex.Split(currentFile.Content);
+
+                    frontendContent.Add(new FrontendContent
+                    {
+                        Content = firstSplitArray[0],
+                        Format = regexFormat
+                    });
+                }
+            }
+
+        }
+
+
         /// <summary>
         /// Tries to fetch logs for the given <see cref="LogDirectoryConfiguration"/>
         /// </summary>
@@ -66,10 +109,10 @@ namespace LogViewer.Services
         {
             return !Directory.Exists(configuration.DirectoryPath);
         }
+
         private static bool FilePathsAreValid(LogDirectoryConfiguration configuration)
         {
             return configuration.FilePaths.Any();
         }
-
     }
 }

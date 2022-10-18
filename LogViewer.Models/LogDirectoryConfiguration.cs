@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LogViewer.Constants;
+
+using System.Text.RegularExpressions;
 
 namespace LogViewer.Models
 {
@@ -21,5 +19,9 @@ namespace LogViewer.Models
         /// Could be empty if <see cref="DirectoryPath"/> has been filled
         /// </summary>
         public ArraySegment<string> FilePaths { get; set; } = ArraySegment<string>.Empty;
+
+
+        public ArraySegment<RegexFormat> RegexFormats { get; set; } = ArraySegment<RegexFormat>.Empty;
+
     }
 }

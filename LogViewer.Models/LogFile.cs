@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LogViewer.Models
+﻿namespace LogViewer.Models
 {
-    public class LogFile
+    public readonly record struct LogFile
     {
-        public required string Content { get; set; }
-        public required string FullFileName { get; set; }
+        public required string Content { get; init; }
+        public required string FullFileName { get; init; }
     }
 }
