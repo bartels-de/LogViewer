@@ -5,11 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace LogViewer.Services
 {
-    internal class LogFetcherService
+    public class LogFetcherService
     {
-        internal async Task<List<FrontendContent>> GetContentsWithFormat(
-            LogDirectoryConfiguration configuration, 
-            IAsyncEnumerator<LogFile> filesEnumerator)
+        public async Task<List<FrontendContent>> GetContentsWithFormatAsync(LogDirectoryConfiguration configuration)
         {
             if(configuration.RegexFormats.Count != 4)
             {
@@ -17,14 +15,32 @@ namespace LogViewer.Services
                 return new List<FrontendContent>();
             }
 
+            if(!Directory.Exists(configuration.DirectoryPath))
+            {
+                //Directory does not exist
+                return new List<FrontendContent>();
+            }
+
+            var files = Directory.GetFiles(configuration.DirectoryPath);
+
+            if(configuration.FilePaths.Any())
+                files = files
+                    .Where(file => configuration.FilePaths
+                    .Contains(file))
+                    .ToArray();
+
             var frontendContent = new List<FrontendContent>();
 
-            while (await filesEnumerator.MoveNextAsync())
+            foreach(var file in files )
             {
-                var currentFile = filesEnumerator.Current;
-
                 foreach (var regexFormat in configuration.RegexFormats)
                 {
+                    var currentFile = new LogFile
+                    {
+                        Content = await File.ReadAllTextAsync(file),
+                        FullFileName = Path.GetFileName(file)
+                    };
+
                     var regexString = regexFormat switch
                     {
                         RegexFormat.Date => RegexConstants.Date,
