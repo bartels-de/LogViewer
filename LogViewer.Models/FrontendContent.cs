@@ -10,5 +10,6 @@ namespace LogViewer.Models
     {
         public RegexFormat Format { get; init; }
         public string Content { get; init; }
+        public string LogName { get; init; }
     }
 }

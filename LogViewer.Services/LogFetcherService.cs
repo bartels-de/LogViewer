@@ -7,14 +7,14 @@ namespace LogViewer.Services
 {
     internal class LogFetcherService
     {
-        internal async Task GetContentWithFormat(
+        internal async Task<List<FrontendContent>> GetContentsWithFormat(
             LogDirectoryConfiguration configuration, 
             IAsyncEnumerator<LogFile> filesEnumerator)
         {
             if(configuration.RegexFormats.Count != 4)
             {
                 //something went wrong, the count must be four
-                return;
+                return new List<FrontendContent>();
             }
 
             var frontendContent = new List<FrontendContent>();
@@ -40,11 +40,13 @@ namespace LogViewer.Services
                     frontendContent.Add(new FrontendContent
                     {
                         Content = firstSplitArray[0],
-                        Format = regexFormat
+                        Format = regexFormat,
+                        LogName = currentFile.FullFileName
                     });
                 }
             }
 
+            return frontendContent;
         }
 
 

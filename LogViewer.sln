@@ -5,11 +5,13 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogViewer", "LogViewer\LogViewer.csproj", "{CAE8B93C-BE3B-4B65-89EA-D9B0C840BA05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogViewer.Services", "LogViewer.Services\LogViewer.Services.csproj", "{A8322089-3F08-4518-9990-1A78D34E5927}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogViewer.Services", "LogViewer.Services\LogViewer.Services.csproj", "{A8322089-3F08-4518-9990-1A78D34E5927}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogViewer.Models", "LogViewer.Models\LogViewer.Models.csproj", "{464B7AB2-B357-4595-918B-C502DFA2247A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogViewer.Models", "LogViewer.Models\LogViewer.Models.csproj", "{464B7AB2-B357-4595-918B-C502DFA2247A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogViewer.Constants", "LogViewer.Constants\LogViewer.Constants.csproj", "{3E44E60D-0AAC-4D0A-9194-181101C6D3B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogViewer.Constants", "LogViewer.Constants\LogViewer.Constants.csproj", "{3E44E60D-0AAC-4D0A-9194-181101C6D3B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogViewer.WebAPI", "LogViewer.WebAPI\LogViewer.WebAPI.csproj", "{549FAB88-153E-48F4-AAD0-9935DDF7495C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{3E44E60D-0AAC-4D0A-9194-181101C6D3B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E44E60D-0AAC-4D0A-9194-181101C6D3B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E44E60D-0AAC-4D0A-9194-181101C6D3B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{549FAB88-153E-48F4-AAD0-9935DDF7495C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{549FAB88-153E-48F4-AAD0-9935DDF7495C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{549FAB88-153E-48F4-AAD0-9935DDF7495C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{549FAB88-153E-48F4-AAD0-9935DDF7495C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
