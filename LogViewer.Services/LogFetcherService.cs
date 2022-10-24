@@ -1,4 +1,5 @@
 ﻿using LogViewer.Constants;
+using LogViewer.Extensions;
 using LogViewer.Models;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -9,7 +10,7 @@ namespace LogViewer.Services
     {
         public async Task<List<FrontendContent>> GetContentsWithFormatAsync(LogDirectoryConfiguration configuration)
         {
-            if(configuration.RegexFormats.Count != 4)
+            if(configuration.RegexFormats.Length != 4)
             {
                 //something went wrong, the count must be four
                 return new List<FrontendContent>();
@@ -26,39 +27,62 @@ namespace LogViewer.Services
             if(configuration.FilePaths.Any())
                 files = files
                     .Where(file => configuration.FilePaths
-                    .Contains(file))
+                        .Contains(file))
                     .ToArray();
 
             var frontendContent = new List<FrontendContent>();
 
-            foreach(var file in files )
+            foreach(var file in files)
             {
-                foreach (var regexFormat in configuration.RegexFormats)
+                var currentFile = await file.ToLogFileAsync();
+
+                var regex = new Regex(RegexConstants.Date);
+                var matches = regex.Matches(currentFile.Content)
+                    .Where(x => x.Success)
+                    .ToArray();
+
+                for (int i = 0; i < matches.Length; i++)
                 {
-                    var currentFile = new LogFile
-                    {
-                        Content = await File.ReadAllTextAsync(file),
-                        FullFileName = Path.GetFileName(file)
-                    };
+                    var match = matches[i];
 
-                    var regexString = regexFormat switch
-                    {
-                        RegexFormat.Date => RegexConstants.Date,
-                        RegexFormat.LogLevel => RegexConstants.LogLevel,
-                        RegexFormat.ClassName => RegexConstants.ClassName,
-                        RegexFormat.ThreadId => RegexConstants.ThreadId,
-                        _ => throw new NotImplementedException(),
-                    };
-
-                    var regex = new Regex(regexString);
-                    var firstSplitArray = regex.Split(currentFile.Content);
+                    if (match is null)
+                        continue;
 
                     frontendContent.Add(new FrontendContent
                     {
-                        Content = firstSplitArray[0],
-                        Format = regexFormat,
-                        LogName = currentFile.FullFileName
+                        Format = RegexFormat.Date,
+                        LogName = currentFile.FullFileName,
+                        Content = match.Value,
+                        Index = i
                     });
+
+                    foreach (var regexFormat in configuration.RegexFormats)
+                    {
+                        if (regexFormat is RegexFormat.Date)
+                            continue;
+
+                        string? subtext = currentFile.Content[match.Index..];
+
+                        var regexAsString = regexFormat switch
+                        {
+                            RegexFormat.LogLevel => RegexConstants.LogLevel,
+                            RegexFormat.ClassName => RegexConstants.ClassName,
+                            RegexFormat.ThreadId => RegexConstants.ThreadId,
+                            RegexFormat.Date => throw new NotImplementedException(),
+                            _ => throw new NotImplementedException()
+                        };
+
+                        var subStringRegex = new Regex(regexAsString);
+                        var subStringMatch = subStringRegex.Match(subtext);
+
+                        frontendContent.Add(new FrontendContent
+                        {
+                            Format = regexFormat,
+                            LogName = currentFile.FullFileName,
+                            Content = subStringMatch.Value,
+                            Index = i
+                        });
+                    }
                 }
             }
 

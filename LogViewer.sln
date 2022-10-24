@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogViewer.Constants", "LogV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogViewer.WebAPI", "LogViewer.WebAPI\LogViewer.WebAPI.csproj", "{549FAB88-153E-48F4-AAD0-9935DDF7495C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogViewer.Extensions", "LogViewer.Extensions\LogViewer.Extensions.csproj", "{55BEA057-5AF3-4A67-B96F-83905E78589A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{549FAB88-153E-48F4-AAD0-9935DDF7495C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{549FAB88-153E-48F4-AAD0-9935DDF7495C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{549FAB88-153E-48F4-AAD0-9935DDF7495C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55BEA057-5AF3-4A67-B96F-83905E78589A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55BEA057-5AF3-4A67-B96F-83905E78589A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55BEA057-5AF3-4A67-B96F-83905E78589A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55BEA057-5AF3-4A67-B96F-83905E78589A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

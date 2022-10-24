@@ -18,10 +18,10 @@ namespace LogViewer.Models
         /// 
         /// Could be empty if <see cref="DirectoryPath"/> has been filled
         /// </summary>
-        public ArraySegment<string> FilePaths { get; set; } = ArraySegment<string>.Empty;
+        public string[] FilePaths { get; set; } = Array.Empty<string>();
 
 
-        public ArraySegment<RegexFormat> RegexFormats { get; set; } = ArraySegment<RegexFormat>.Empty;
+        public RegexFormat[] RegexFormats { get; set; } = Array.Empty<RegexFormat>();
 
     }
 }

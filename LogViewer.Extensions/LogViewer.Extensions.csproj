@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LogViewer.Constants\LogViewer.Constants.csproj" />
-    <ProjectReference Include="..\LogViewer.Extensions\LogViewer.Extensions.csproj" />
     <ProjectReference Include="..\LogViewer.Models\LogViewer.Models.csproj" />
   </ItemGroup>
 
